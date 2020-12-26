@@ -1,6 +1,5 @@
 use regex::Regex;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::BufRead;
 use std::str::FromStr;
 
 const INPUT_PATH: &str = "input/day02-input";
@@ -21,15 +20,11 @@ lazy_static! {
     .expect("Couldn't create Regex");
 }
 
-fn get_input() -> impl BufRead {
-    BufReader::new(File::open(INPUT_PATH).expect("Couldn't open file"))
-}
-
 fn valid_passwords<P>(policy: P) -> usize
 where
     P: Fn(&str) -> bool,
 {
-    get_input()
+    crate::get_buffered_input(INPUT_PATH)
         .lines()
         .filter(|line| policy(line.as_ref().unwrap()))
         .count()
@@ -64,13 +59,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_par1() {
+    fn compute_par1() {
         let valid_pwds = part1();
         println!("Result: {}", valid_pwds);
     }
 
     #[test]
-    fn test_part2() {
+    fn compute_part2() {
         let valid_pwds = part2();
         println!("Result: {}", valid_pwds);
     }

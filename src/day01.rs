@@ -1,6 +1,6 @@
-use std::path::PathBuf;
-use std::io::{BufReader, BufRead};
 use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::path::PathBuf;
 
 const QUERY: u32 = 2020;
 
@@ -39,7 +39,7 @@ pub fn part2(path: &PathBuf) -> Option<u32> {
         return None;
     }
 
-    // Horrible performance, but works
+    // Horrible performance, but input is small
     for i in 0..numbers.len() {
         for j in 1..numbers.len() {
             for k in 2..numbers.len() {
