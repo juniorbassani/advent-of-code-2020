@@ -22,7 +22,7 @@ fn next_slope(file: &mut File, right: u64, down: u64) {
     }
 }
 
-pub fn trees_in_slopes(right: u64, down: u64) -> u64 {
+fn trees_in_slopes(right: u64, down: u64) -> u64 {
     let mut file = File::open(INPUT_PATH).unwrap();
     file.seek(SeekFrom::Start(1)).unwrap();
     let mut buf = [0; 1];
@@ -48,11 +48,11 @@ pub fn trees_in_slopes(right: u64, down: u64) -> u64 {
     }
 }
 
-fn part1() -> u64 {
+pub fn part1() -> u64 {
     trees_in_slopes(3, 1)
 }
 
-fn part2() -> u64 {
+pub fn part2() -> u64 {
     let a = trees_in_slopes(1, 1);
     let b = trees_in_slopes(3, 1);
     let c = trees_in_slopes(5, 1);
