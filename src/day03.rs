@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{ErrorKind, Read, Seek, SeekFrom};
 
-const INPUT_PATH: &str = "input/day03-input";
+const INPUT_PATH: &str = "input/day03";
 
 fn next_slope(file: &mut File, right: u64, down: u64) {
     let mut buf = [0; 1];

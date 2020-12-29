@@ -2,7 +2,7 @@ use regex::Regex;
 use std::io::BufRead;
 use std::str::FromStr;
 
-const INPUT_PATH: &str = "input/day02-input";
+const INPUT_PATH: &str = "input/day02";
 
 lazy_static! {
     // valid regex example: 14-19 x: lrxxxtxxxxxxxzxxxxx

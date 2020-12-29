@@ -63,14 +63,14 @@ mod tests {
 
     #[test]
     fn compute_part1() {
-        let result = part1(&PathBuf::from("input/day01-input"));
+        let result = part1(&PathBuf::from("input/day01"));
         assert!(result.is_some());
         println!("Result: {}", result.unwrap());
     }
 
     #[test]
     fn compute_part2() {
-        let result = part2(&PathBuf::from("input/day01-input"));
+        let result = part2(&PathBuf::from("input/day01"));
         assert!(result.is_some());
         println!("Result: {}", result.unwrap());
     }
