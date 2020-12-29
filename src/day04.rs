@@ -18,10 +18,17 @@ pub fn part1() -> u32 {
     let mut file = crate::get_buffered_input(INPUT_PATH);
     let mut buf = String::with_capacity(128);
     let mut valid_passports = 0;
+    let mut should_break = false;
 
-    while let Ok(bytes @ 1..=usize::MAX) = file.read_line(&mut buf) {
-        if buf[buf.len() - bytes..buf.len() - bytes + 1].ne("\n") {
-            continue;
+    loop {
+        let bytes = file.read_line(&mut buf).expect("Can't read");
+
+        if bytes == 0 {
+            should_break = true;
+        } else {
+            if buf[buf.len() - bytes..buf.len() - bytes + 1].ne("\n") {
+                continue;
+            }
         }
 
         let required_docs = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
@@ -31,6 +38,7 @@ pub fn part1() -> u32 {
             .collect();
         let mut valid = true;
 
+        // Don't process the documentation if there's not enough
         if available_docs.len() >= 7 && available_docs.len() <= 8 {
             for required_doc in required_docs.iter() {
                 if !available_docs.contains(required_doc) {
@@ -42,6 +50,10 @@ pub fn part1() -> u32 {
             if valid {
                 valid_passports += 1;
             }
+        }
+
+        if should_break {
+            break;
         }
 
         buf.clear();
