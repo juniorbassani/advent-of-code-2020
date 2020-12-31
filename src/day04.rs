@@ -5,6 +5,7 @@ use std::io::BufRead;
 const INPUT_PATH: &str = "input/day04";
 
 lazy_static! {
+    //
     // Valid pattern example:
     //
     // "byr:2001 iyr:2011
@@ -74,16 +75,15 @@ pub fn part1() -> u32 {
     valid_passports(check_required_docs)
 }
 
-// The answer is one above the correct
 pub fn part2() -> u32 {
     let mut all_docs = HashMap::with_capacity(8);
-    all_docs.insert("byr", Regex::new(r"\d{4}").unwrap());
-    all_docs.insert("iyr", Regex::new(r"\d{4}").unwrap());
-    all_docs.insert("eyr", Regex::new(r"\d{4}").unwrap());
-    all_docs.insert("hgt", Regex::new(r"(\d{2,3})(cm|in)").unwrap());
-    all_docs.insert("hcl", Regex::new(r"#[[0-9][a-f]]{6}").unwrap());
+    all_docs.insert("byr", Regex::new(r"^\d{4}$").unwrap());
+    all_docs.insert("iyr", Regex::new(r"^\d{4}$").unwrap());
+    all_docs.insert("eyr", Regex::new(r"^\d{4}$").unwrap());
+    all_docs.insert("hgt", Regex::new(r"^(\d{2,3})(cm|in)$").unwrap());
+    all_docs.insert("hcl", Regex::new(r"^#[[:xdigit:]]{6}$").unwrap());
     all_docs.insert("ecl", Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap());
-    all_docs.insert("pid", Regex::new(r"\d{9}").unwrap());
+    all_docs.insert("pid", Regex::new(r"^\d{9}$").unwrap());
     all_docs.insert("cid", Regex::new(r".").unwrap());
 
     valid_passports(|passport| {
@@ -171,10 +171,12 @@ hgt:167cm eyr:2026\n";
         assert!(RE.is_match(b));
         assert!(!RE.is_match(c));
 
-        let hcl = Regex::new(r"#[[0-9][a-f]]{6}").unwrap();
+        let hcl = Regex::new(r"#[[:xdigit:]]{6}").unwrap();
         let hgt = Regex::new(r"(\d){1,3}(cm|in)").unwrap();
         let cid = Regex::new(r".").unwrap();
+        let pid = Regex::new(r"^\d{9}$").unwrap();
 
+        assert!(!pid.is_match("3508035599"));
         assert!(hcl.is_match("#353bc9"));
         assert!(hgt.is_match("170cm"));
         assert!(hgt.is_match("167cm"));
@@ -205,14 +207,12 @@ hgt:167cm eyr:2026\n";
     #[test]
     fn compute_part1() {
         let res = part1();
-        assert!(res > 0);
-        println!("{}", res);
+        assert_eq!(res, 245);
     }
 
     #[test]
     fn compute_part2() {
         let res = part2();
-        assert!(res > 0);
-        println!("{}", res);
+        assert_eq!(res, 133);
     }
 }
