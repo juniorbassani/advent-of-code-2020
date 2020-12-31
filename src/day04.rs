@@ -76,7 +76,7 @@ pub fn part1() -> u32 {
 
 // The answer is one above the correct
 pub fn part2() -> u32 {
-    let mut all_docs = HashMap::with_capacity(7);
+    let mut all_docs = HashMap::with_capacity(8);
     all_docs.insert("byr", Regex::new(r"\d{4}").unwrap());
     all_docs.insert("iyr", Regex::new(r"\d{4}").unwrap());
     all_docs.insert("eyr", Regex::new(r"\d{4}").unwrap());

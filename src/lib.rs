@@ -8,6 +8,7 @@ pub mod day01;
 pub mod day02;
 pub mod day03;
 pub mod day04;
+pub mod day05;
 
 fn get_buffered_input(path: &str) -> impl BufRead {
     BufReader::new(File::open(path).expect("Couldn't open file"))
