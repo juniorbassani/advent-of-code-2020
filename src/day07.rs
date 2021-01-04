@@ -1,10 +1,3 @@
-// shiny gold bags contain 3 wavy gold bags, 2 plaid chartreuse bags, 2 shiny lime bags, 5 dull indigo bags.
-// wavy gold bags contain 5 dull black bags, 1 muted fuchsia bag, 4 dark red bags, 1 light crimson bag.
-// dull black bags contain 2 shiny lime bags, 3 muted indigo bags, 5 faded beige bags.
-// shiny lime bags contain 1 faded teal bag, 1 light crimson bag.
-// faded teal bags contain no other bags.
-// light crimson bags contain no other bags.
-
 use std::collections::HashMap;
 
 const INPUT_PATH: &str = "input/day07";
