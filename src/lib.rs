@@ -16,6 +16,7 @@ pub mod day07;
 pub mod day08;
 pub mod day09;
 pub mod day10;
+pub mod day11;
 
 fn get_buffered_input(path: &str) -> impl BufRead {
     BufReader::new(File::open(path).expect("Couldn't open file"))
@@ -35,6 +36,17 @@ where
 
     for line in file.lines() {
         contents.push(line.unwrap().parse().unwrap());
+    }
+
+    contents
+}
+
+fn get_input_as_matrix(path: &str) -> Vec<Vec<char>> {
+    let file = get_buffered_input(path);
+    let mut contents = Vec::with_capacity(128);
+
+    for line in file.lines() {
+        contents.push(line.unwrap().chars().collect());
     }
 
     contents
