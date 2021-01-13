@@ -21,7 +21,8 @@ impl Add<i32> for Direction {
             .iter()
             .enumerate()
             .find(|&(_, &elem)| elem == self)
-            .unwrap().0;
+            .unwrap()
+            .0;
 
         match degrees {
             // Left
@@ -68,7 +69,7 @@ impl Coordinates {
 #[derive(Copy, Clone, Debug)]
 struct Waypoint {
     x: i32,
-    y: i32
+    y: i32,
 }
 
 impl Waypoint {
@@ -86,36 +87,36 @@ impl Waypoint {
         if direction == 'L' {
             degrees = -degrees;
         }
-        
+
         match degrees {
             // Left
             -90 => {
                 self.x = old_y * -1;
                 self.y = old_x;
-            },
+            }
             -180 => {
                 self.x = old_x * -1;
                 self.y = old_y * -1;
-            },
+            }
             -270 => {
                 self.x = old_y;
                 self.y = old_x * -1;
-            },
+            }
             // Right
             90 => {
                 self.x = old_y;
                 self.y = old_x * -1;
-            },
+            }
             180 => {
                 self.x = old_x * -1;
                 self.y = old_y * -1;
-            },
+            }
             270 => {
                 self.x = old_y * -1;
                 self.y = old_x;
-            },
+            }
             // Maintain the same position otherwise
-            _ => {},
+            _ => {}
         }
     }
 }
@@ -145,35 +146,28 @@ where
 }
 
 fn manhattan_distance(input: &[&str]) -> u32 {
-    helper(input, |coordinates, direction, amount| {
-        match direction {
-            'N' => coordinates.north += amount,
-            'S' => coordinates.south += amount,
-            'E' => coordinates.east += amount,
-            'W' => coordinates.west += amount,
-            'L' | 'R' => coordinates.rotate(direction, amount),
-            'F' => coordinates.forward(amount),
-            _ => panic!(),
-        }
+    helper(input, |coordinates, direction, amount| match direction {
+        'N' => coordinates.north += amount,
+        'S' => coordinates.south += amount,
+        'E' => coordinates.east += amount,
+        'W' => coordinates.west += amount,
+        'L' | 'R' => coordinates.rotate(direction, amount),
+        'F' => coordinates.forward(amount),
+        _ => panic!(),
     })
 }
 
 fn waypoint_manhattan_distance(input: &[&str]) -> u32 {
-    let mut waypoint = Waypoint {
-        x: 10,
-        y: 1
-    };
+    let mut waypoint = Waypoint { x: 10, y: 1 };
 
-    helper(input, |coordinates, direction, amount| {
-        match direction {
-            'N' => waypoint.y += amount,
-            'S' => waypoint.y -= amount,
-            'E' => waypoint.x += amount,
-            'W' => waypoint.x -= amount,
-            'L' | 'R' => waypoint.rotate(direction, amount),
-            'F' => waypoint.forward(coordinates, amount),
-            _ => panic!(),
-        }
+    helper(input, |coordinates, direction, amount| match direction {
+        'N' => waypoint.y += amount,
+        'S' => waypoint.y -= amount,
+        'E' => waypoint.x += amount,
+        'W' => waypoint.x -= amount,
+        'L' | 'R' => waypoint.rotate(direction, amount),
+        'F' => waypoint.forward(coordinates, amount),
+        _ => panic!(),
     })
 }
 
