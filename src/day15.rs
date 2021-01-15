@@ -1,7 +1,7 @@
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
-fn count(numbers: &[i32]) -> i32 {
+fn count(numbers: &[i32], up_to: usize) -> i32 {
     let mut spoken = HashMap::with_capacity(50);
 
     for (i, &starting_number) in numbers.iter().enumerate() {
@@ -10,7 +10,7 @@ fn count(numbers: &[i32]) -> i32 {
 
     let mut last = numbers[numbers.len() - 1];
 
-    for i in numbers.len()..2020 {
+    for i in numbers.len()..up_to {
         let next: i32;
 
         let &(count, prev, most_recent) = spoken.get(&last).unwrap();
@@ -45,7 +45,12 @@ fn count(numbers: &[i32]) -> i32 {
 
 pub fn part1() -> i32 {
     let input = [14, 1, 17, 0, 3, 20];
-    count(&input)
+    count(&input, 2020)
+}
+
+pub fn part2() -> i32 {
+    let input = [14, 1, 17, 0, 3, 20];
+    count(&input, 30000000)
 }
 
 #[cfg(test)]
@@ -57,10 +62,10 @@ mod tests {
         assert_eq!(part1(), 387);
     }
 
-    // #[test]
-    // fn compute_part2() {
-    //     assert_eq!(part2(), 4335927555692);
-    // }
+    #[test]
+    fn compute_part2() {
+        assert_eq!(part2(), 6428);
+    }
 
     #[test]
     fn part1_examples() {
@@ -72,25 +77,18 @@ mod tests {
         let f = vec![3, 2, 1];
         let g = vec![3, 1, 2];
 
-        assert_eq!(count(&a), 436);
-        assert_eq!(count(&b), 1);
-        assert_eq!(count(&c), 10);
-        assert_eq!(count(&d), 27);
-        assert_eq!(count(&e), 78);
-        assert_eq!(count(&f), 438);
-        assert_eq!(count(&g), 1836);
+        assert_eq!(count(&a, 2020), 436);
+        assert_eq!(count(&b, 2020), 1);
+        assert_eq!(count(&c, 2020), 10);
+        assert_eq!(count(&d, 2020), 27);
+        assert_eq!(count(&e, 2020), 78);
+        assert_eq!(count(&f, 2020), 438);
+        assert_eq!(count(&g, 2020), 1836);
     }
 
-    // #[test]
-    // fn part2_example() {
-    //     let mut instructions = Vec::new();
-    //     instructions.push("mask = 000000000000000000000000000000X1001X");
-    //     instructions.push("mem[42] = 100");
-    //     instructions.push("mask = 00000000000000000000000000000000X0XX");
-    //     instructions.push("mem[26] = 1");
-
-    //     let memory = decode(&instructions, mask_addresses);
-
-    //     assert_eq!(addresses_sum(&memory), 208);
-    // }
+    #[test]
+    fn part2_examples() {
+        let a = vec![0, 3, 6];
+        assert_eq!(count(&a, 30000000), 175594);
+    }
 }
