@@ -67,7 +67,6 @@ fn mask_addresses(memory: &mut HashMap<u64, u64>, mask: &str, addr: u64, value: 
 
     let count = address.chars().filter(|&bit| bit == 'X').count();
     let total = 2usize.pow(count as u32);
-    // TODO: make it lazy_static!() with higher capacity
     let mut addresses = Vec::with_capacity(total);
 
     for i in 0..total {
