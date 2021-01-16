@@ -7,16 +7,12 @@ fn get_mismatched_number(input: &Vec<u64>, mut preamble: usize) -> u64 {
         let data: Vec<&u64> = input.iter().skip(skip).take(preamble).collect();
         let mut should_break = false;
 
-        for i in 0..data.len() {
+        'outer: for i in 0..data.len() {
             for j in 1..data.len() {
                 if i != j && data[i] + data[j] == query {
                     should_break = true;
-                    break;
+                    break 'outer;
                 }
-            }
-
-            if should_break {
-                break;
             }
         }
 

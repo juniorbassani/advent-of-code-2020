@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
 fn count(numbers: &[i32], up_to: usize) -> i32 {
-    let mut spoken = HashMap::with_capacity(50);
+    let mut spoken = HashMap::with_capacity(64);
 
     for (i, &starting_number) in numbers.iter().enumerate() {
         spoken.insert(starting_number, (1, i, i));
@@ -11,8 +11,7 @@ fn count(numbers: &[i32], up_to: usize) -> i32 {
     let mut last = numbers[numbers.len() - 1];
 
     for i in numbers.len()..up_to {
-        let next: i32;
-
+        let next;
         let &(count, prev, most_recent) = spoken.get(&last).unwrap();
 
         if count == 1 {
@@ -23,8 +22,6 @@ fn count(numbers: &[i32], up_to: usize) -> i32 {
             next = (most_recent - prev) as i32;
         }
 
-        spoken.entry(next).or_insert((0, i, i)).0 += 1;
-
         match spoken.entry(next) {
             Entry::Occupied(mut entry) => {
                 let (count, prev, most_recent) = entry.get_mut();
@@ -33,7 +30,7 @@ fn count(numbers: &[i32], up_to: usize) -> i32 {
                 *most_recent = i;
             }
             Entry::Vacant(entry) => {
-                entry.insert((0, i, i));
+                entry.insert((1, i, i));
             }
         }
 
