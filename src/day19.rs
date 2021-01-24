@@ -31,7 +31,7 @@ fn valid_messages(rules: &HashMap<u32, &str>, messages: &[&str]) -> u32 {
     }
 
     messages.iter().fold(0, |acc, &msg| {
-        if helper(rules, rules[&0], msg).1.is_empty() {
+        if let (true, "") = helper(rules, rules[&0], msg) {
             acc + 1
         } else {
             acc
@@ -70,8 +70,7 @@ mod tests {
 
     #[test]
     fn compute_part1() {
-        println!("{}", part1());
-        // assert_eq!(part1(), 0);
+        assert_eq!(part1(), 139);
     }
 
     #[test]
