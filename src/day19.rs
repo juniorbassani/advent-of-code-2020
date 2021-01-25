@@ -2,36 +2,41 @@ use std::collections::HashMap;
 
 const INPUT_PATH: &str = "input/day19";
 
-// TODO: use memoization
 fn valid_messages(rules: &HashMap<u32, &str>, messages: &[&str]) -> u32 {
-    fn helper<'a>(rules: &HashMap<u32, &str>, rule: &str, mut msg: &'a str) -> (bool, &'a str) {
+    fn helper<'a>(rules: &HashMap<u32, &str>, rule: &str, mut msg: &'a str) -> &'a str {
         if rule.contains('\"') {
             let letter = rule.chars().nth(1).unwrap();
 
             if msg.chars().nth(0).unwrap() == letter {
-                return (true, &msg[1..]);
+                return &msg[1..];
             } else {
-                return (false, &msg[1..]);
+                return msg;
             }
         }
 
         let tmp = msg;
-        (
-            rule.split("|").any(|rule| {
-                msg = tmp;
-                rule.trim().split_whitespace().all(|rule| {
-                    let val = rules[&rule.parse::<u32>().unwrap()];
-                    let res = helper(rules, val, msg);
-                    msg = res.1;
-                    res.0
-                })
-            }),
-            msg,
-        )
+        rule.split(" | ").any(|rule| {
+            msg = tmp;
+            rule.split_whitespace().all(|rule| {
+                let val = rules[&rule.parse::<u32>().unwrap()];
+                let res = helper(rules, val, msg);
+                let result = res.len() < msg.len();
+
+                if result {
+                    msg = res;
+                } else {
+                    msg = tmp;
+                }
+
+                result
+            })
+        });
+
+        msg
     }
 
     messages.iter().fold(0, |acc, &msg| {
-        if let (true, "") = helper(rules, rules[&0], msg) {
+        if helper(rules, rules[&0], msg).is_empty() {
             acc + 1
         } else {
             acc
