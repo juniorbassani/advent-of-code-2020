@@ -3,44 +3,40 @@ use std::collections::HashMap;
 const INPUT_PATH: &str = "input/day19";
 
 fn valid_messages(rules: &HashMap<u32, &str>, messages: &[&str]) -> u32 {
-    fn helper<'a>(
-        rules: &HashMap<u32, &str>,
-        rule: (u32, &str),
-        mut msg: &'a str,
-    ) -> (bool, &'a str) {
-        if rule.1.contains('\"') {
-            let letter = rule.1.chars().nth(1).unwrap();
+    fn helper<'a>(rules: &HashMap<u32, &str>, rule: &str, mut msg: &'a str) -> &'a str {
+        if rule.contains('\"') {
+            let letter = rule.chars().nth(1).unwrap();
 
-            if let Some(a) = msg.chars().nth(0) {
-                return (a == letter, &msg[1..]);
+            if msg.chars().nth(0).unwrap() == letter {
+                return &msg[1..];
             } else {
-                return (true, "");
+                return msg;
             }
         }
 
         let tmp = msg;
-        (
-            rule.1.split("|").any(|rule| {
-                msg = tmp;
-                rule.trim().split_whitespace().all(|rule| {
-                    if msg.is_empty() {
-                        return true;
-                    }
-                    let (&r, &val) = rules.get_key_value(&rule.parse::<u32>().unwrap()).unwrap();
-                    let res = helper(rules, (r, val), msg);
-                    msg = res.1;
-                    res.0
-                })
-            }),
-            msg,
-        )
+        rule.split(" | ").any(|rule| {
+            msg = tmp;
+            rule.split_whitespace().all(|rule| {
+                let val = rules[&rule.parse::<u32>().unwrap()];
+                let res = helper(rules, val, msg);
+                let result = res.len() < msg.len();
+
+                if result {
+                    msg = res;
+                } else {
+                    msg = tmp;
+                }
+
+                result
+            })
+        });
+
+        msg
     }
 
     messages.iter().fold(0, |acc, &msg| {
-        let rule = rules.get_key_value(&0).unwrap();
-        let rule = (*rule.0, *rule.1);
-
-        if let (true, "") = helper(rules, rule, msg) {
+        if helper(rules, rules[&0], msg).is_empty() {
             acc + 1
         } else {
             acc
